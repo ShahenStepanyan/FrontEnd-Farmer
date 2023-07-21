@@ -1,0 +1,30 @@
+.ant-row.container {
+  height: 100%;
+}
+
+.ant-row.container > div.ant-col {
+  height: 100%;
+}
+
+.ant-row.container .login-form-container {
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px 2px #288acc29;
+}
+.ant-row.container .login-form-container > form {
+  width: 100%;
+}
+.ant-row.container .login-form-container > form button[type="submit"] {
+  width: 100%;
+}
+.ant-row.container .image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-row.container .image-container > img {
+  width: 90%;
+}

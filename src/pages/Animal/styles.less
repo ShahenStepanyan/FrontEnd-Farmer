@@ -1,0 +1,50 @@
+@import "~antd/lib/style/themes/default.less";
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  .main-info {
+    width: calc(70% - 112px);
+    overflow: auto;
+
+    .deregister-animal-button {
+      margin-left: 12px;
+    }
+    .destroy-animal-button {
+      margin-left: 12px;
+    }
+
+    .weight-card {
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+  }
+
+  .sidebar {
+    width: 30%;
+    height: inherit;
+    position: fixed;
+    right: 40px;
+
+    .compact-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+@media (max-width: @screen-lg) {
+  .container {
+    .sidebar,
+    .main-info {
+      width: 100%;
+      height: unset;
+      position: unset;
+      right: unset;
+    }
+  }
+}
