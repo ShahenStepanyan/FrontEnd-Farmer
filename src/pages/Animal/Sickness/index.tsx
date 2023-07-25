@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Card, Col, Row, Modal, Select } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
@@ -13,12 +13,13 @@ import {
   Legend,
 } from "chart.js";
 import { useParams } from "react-router-dom";
-import { AnimalContext } from "../../../context/AnimalContext";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import animalProblemsService from "../../../services/animalsProblems";
-import type { Weight, WeightModel } from "../../../types/Weight";
 import selectFieldService from "../../../services/selectFields";
+import { AnimalSubTypes } from "../../../types/AnimalSubTypes";
+import { Problem } from "../../../types/Problem";
+
 
 ChartJS.register(
   CategoryScale,
@@ -38,32 +39,33 @@ const AnimalSickness = ({
   disabled: boolean;
 }) => {
   const { id } = useParams();
-  const { animal, getAndSetWeights, getAndSetAnimal } =
-    useContext(AnimalContext);
-  const [animalProblems, setAnimalProblems] = useState<any[]>([]);
-  const [selectField, setSelectField] = useState<any[]>([]);
-  const [weightToEdit, setWeightToEdit] = useState<WeightModel>();
-  const [isModalOpen, setIsModalOpen] = useState<any>(false);
-  const [forDelete, setForDelete] = useState(false)
+  const [animalProblems, setAnimalProblems] = useState<Problem[]>([]);
+  const [selectField, setSelectField] = useState<AnimalSubTypes[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [forDelete, setForDelete] = useState(false);
   const [data, setData] = useState<any>({});
   const { t } = useTranslation("animals");
 
   useEffect(() => {
-    const result: any[] = [];
-    animalProblemsService.find({ type: "sickness" }).then((value) => {
-      value.map((item) => {
-        if (item.animal === id) {
-          result.push(item);
-        }
-      });
-      setAnimalProblems(result);
-      setForDelete(false)
-    });
-  }, [isModalOpen,forDelete]);
+    const result: Problem[] = [];
+    animalProblemsService
+      .find({ type: "sickness" })
+      .then((value) => {
+        value.forEach((item) => {
+          if (item.animal === id) {
+            result.push(item);
+          }
+          
+        });
+        setAnimalProblems(result);
+        setForDelete(false);
+      })
+      .catch((error) => {});
+  }, [isModalOpen, forDelete, id]);
 
   useEffect(() => {
     selectFieldService.find({ type: "sickness" }).then(setSelectField);
-    setForDelete(false)
+    setForDelete(false);
   }, [isModalOpen, forDelete]);
 
   const showModal = () => {
@@ -90,8 +92,6 @@ const AnimalSickness = ({
     });
   };
 
-    console.log(animalProblems)
-
   return (
     <Row>
       <Modal visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
@@ -114,7 +114,7 @@ const AnimalSickness = ({
           </Button>
         </Row>
         <Row gutter={[4, 4]} style={{ width: "100%" }}>
-          {animalProblems.map((item) => (
+          {animalProblems.map((item: any) => (
             <Card
               key={item._id}
               size="small"
@@ -128,7 +128,7 @@ const AnimalSickness = ({
                   disabled={disabled}
                   onClick={() => {
                     animalProblemsService.destroy(item._id);
-                    setForDelete(true)
+                    setForDelete(true);
                   }}
                 />
               }
@@ -136,7 +136,7 @@ const AnimalSickness = ({
               {selectField.map((value) => {
                 if (value._id === item.problem) {
                   return value.name;
-                }
+                }else {return ""}
               })}
             </Card>
           ))}

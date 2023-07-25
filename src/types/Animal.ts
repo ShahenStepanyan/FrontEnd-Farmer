@@ -20,7 +20,7 @@ export type Animal = {
   deregisterReason?: string;
   deregisterNote?: string;
   deregisterDate?: string | moment.Moment;
-  deregisterSubReason?: string;
+  deregisterSubReason?: string;  
 };
 
 export type AnimalModel = BaseModel<Animal>;

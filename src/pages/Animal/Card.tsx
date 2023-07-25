@@ -10,7 +10,10 @@ import { useEffect, useState } from "react";
 import selectFieldService from "../../services/selectFields";
 import selectSubFieldsService from "../../services/selectSubFields";
 import animalSubTypeService from "../../services/animalSub";
-import { AnimalSubTypes } from "../../types/AnimalSubTypes";
+import {
+  AnimalSubTypes,
+  AnimalSubTypesModel,
+} from "../../types/AnimalSubTypes";
 
 const AnimalCard = ({
   animal,
@@ -27,8 +30,10 @@ const AnimalCard = ({
 }) => {
   const { t } = useTranslation("animals");
   const [selectFields, setSelectFields] = useState<AnimalModel[]>([]);
-  const [animalsSub, setAnimalsSub] = useState<AnimalSubTypes[]>([])
-  const [selectSubFields, setSelectSubFields] = useState<any[]>([]);
+  const [animalsSub, setAnimalsSub] = useState<AnimalSubTypes[]>([]);
+  const [selectSubFields, setSelectSubFields] = useState<AnimalSubTypesModel[]>(
+    []
+  );
   useEffect(() => {
     const result: any = [];
     selectFieldService.find().then((data) =>
@@ -37,6 +42,7 @@ const AnimalCard = ({
           result.push(values);
           return setSelectFields(result);
         }
+        return "";
       })
     );
   }, []);
@@ -44,9 +50,9 @@ const AnimalCard = ({
     selectSubFieldsService.find().then(setSelectSubFields);
   }, []);
   useEffect(() => {
-    animalSubTypeService.find().then(setAnimalsSub)
-  },[])
-  console.log(animalsSub)
+    animalSubTypeService.find().then(setAnimalsSub);
+  }, []);
+;
   return (
     <Card
       size="small"
@@ -84,11 +90,12 @@ const AnimalCard = ({
           info={new Date(animal.birthDate as string).toDateString()}
         />
       )}
-      <InfoItem title="Sub Types" info={animalsSub.map((item) => {
-        if(item._id === animal?.subTypes) {
-          return item.name
-        }
-      })} />
+      <InfoItem
+        title="Sub Types"
+        info={`${
+          animalsSub.find((value) => value._id === animal?.subTypes)?.name
+        }`}
+      />
 
       {animal?.deregisterDate && (
         <InfoItem
@@ -99,21 +106,20 @@ const AnimalCard = ({
       {animal?.deregisterDate && (
         <InfoItem
           title="deregisterReason"
-          info={`${selectFields.map((value) => {
-            if (animal?.deregisterReason === value._id) {
-              return value.name;
-            }
-          })}`}
+          info={`${
+            selectFields.find((value) => value._id === animal?.deregisterReason)
+              ?.name
+          }`}
         />
       )}
       {animal?.deregisterDate && (
         <InfoItem
           title="deregisterSubReason"
-          info={`${selectSubFields.map((value) => {
-            if (animal?.deregisterSubReason === value._id) {
-              return value.name;
-            }
-          })}`}
+          info={`${
+            selectSubFields.find(
+              (value) => value._id === animal?.deregisterSubReason
+            )?.name
+          }`}
         />
       )}
     </Card>

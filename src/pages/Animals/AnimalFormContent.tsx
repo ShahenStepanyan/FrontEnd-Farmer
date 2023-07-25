@@ -5,7 +5,6 @@ import {
   FormInstance,
   InputNumber,
   Select,
-  Space,
   Spin,
 } from "antd";
 import SelectCreate from "../../components/SelectCreate";
@@ -17,8 +16,8 @@ import moment from "moment";
 
 import type { Animal, AnimalModel } from "../../types/Animal";
 import type { AnimalTypesModel } from "../../types/AnimalTypes";
-import selectSubFieldsService from "../../services/selectSubFields";
 import animalSubTypeService from "../../services/animalSub";
+import { AnimalSubTypesModel } from "../../types/AnimalSubTypes";
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -38,7 +37,9 @@ const AnimalFormContent = ({
   const [parentOptions, setParentOptions] = useState<Array<AnimalModel>>([]);
   const [spinning, setSpinning] = useState(false);
   const { t } = useTranslation("animals");
-  const [selectSubFields, setSelectSubFields] = useState<any[]>([]);
+  const [selectSubFields, setSelectSubFields] = useState<AnimalSubTypesModel[]>(
+    []
+  );
 
   const handleParentSearch = async (value?: string) => {
     if (!animalType) {
@@ -72,11 +73,12 @@ const AnimalFormContent = ({
       return;
     }
     setAnimalType(animalTypes[0]);
-  }, [animalTypes, initialValues?.animalType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animalType, animalTypes]);
 
   useEffect(() => {
     handleParentSearch();
-  }, [animalType]);
+  }, [animalType, handleParentSearch]);
 
   useEffect(() => {
     animalSubTypeService.find().then(setSelectSubFields);
@@ -100,7 +102,7 @@ const AnimalFormContent = ({
         );
         form.setFieldsValue({ serialNumber: lastSerialNumber });
       });
-  }, [animalType, form]);
+  }, [animalType, form, initialValues?.serialNumber]);
 
   const handleAnimalTypeAdd = async (value: string) => {
     setSpinning(true);
@@ -130,10 +132,7 @@ const AnimalFormContent = ({
         <InputNumber />
       </FormItem>
 
-      <FormItem
-        name="subTypes"
-        label={t("Animal Sub")}
-      >
+      <FormItem name="subTypes" label={t("Animal Sub")}>
         <Select
           options={selectSubFields.map((item) => ({
             label: item.name,

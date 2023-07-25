@@ -11,7 +11,7 @@ import type { AnimalTypesModel } from "../../../types/AnimalTypes";
 import { useEffect } from "react";
 import animalSubTypeService from "../../../services/animalSub"
 function AnimalTypes() {
-  const [formModal, setFormModal] = useState(false);
+  const [formModal, setFormModal] = useState<boolean>(false);
   const { animalTypes, addItem, updateItem, removeItem } = useContext(AnimalTypesContext);
   const [editItem, setEditItem] = useState<AnimalTypesModel>();
   const { t } = useTranslation("selectFields");
@@ -26,7 +26,6 @@ function AnimalTypes() {
     }
     setFormModal(false);
   };
-  console.log(animalTypes)
   return (
     <Card
       title={t("Animal Types")}

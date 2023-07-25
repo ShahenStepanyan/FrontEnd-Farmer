@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import type { UserModel, UserType } from "../../types/User";
 import UserForm from "./UserForm";
 
+
 const Users = () => {
   const [users, setUsers] = useState([] as Array<UserModel>);
   const [formVisible, setFormVisible] = useState(false);

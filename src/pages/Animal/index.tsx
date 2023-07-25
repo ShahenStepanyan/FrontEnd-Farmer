@@ -71,12 +71,7 @@ const Animal = () => {
     setFormVisible(false);
   };
 
-  const handleDeregister = async (values: {
-    deregisterReason: string;
-    deregisterDate: string | moment.Moment;
-    deregisterNote?: string;
-    deregisterSubReason?: string;
-  }) => {
+  const handleDeregister = async (values: any) => {
     await animalsService.deregister(animal?._id as string, values);
     navigate("/animals");
   };

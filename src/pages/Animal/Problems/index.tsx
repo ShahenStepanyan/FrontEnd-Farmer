@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Card, Col, Row, Modal, Select } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
@@ -13,12 +13,12 @@ import {
   Legend,
 } from "chart.js";
 import { useParams } from "react-router-dom";
-import { AnimalContext } from "../../../context/AnimalContext";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import animalProblemsService from "../../../services/animalsProblems";
-import type { Weight, WeightModel } from "../../../types/Weight";
 import selectFieldService from "../../../services/selectFields";
+import { SelectField } from "../../../types/SelectField";
+import { Problem } from "../../../types/Problem";
 
 ChartJS.register(
   CategoryScale,
@@ -38,32 +38,35 @@ const AnimalProblems = ({
   disabled: boolean;
 }) => {
   const { id } = useParams();
-  const { animal, getAndSetWeights, getAndSetAnimal } =
-    useContext(AnimalContext);
-  const [animalProblems, setAnimalProblems] = useState<any[]>([]);
-  const [selectField, setSelectField] = useState<any[]>([]);
-  const [weightToEdit, setWeightToEdit] = useState<WeightModel>();
-  const [isModalOpen, setIsModalOpen] = useState<any>(false);
-  const [forDelete, setForDelete] = useState(false)
+  const [animalProblems, setAnimalProblems] = useState<Problem[]>([]);
+  const [selectField, setSelectField] = useState<SelectField[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [forDelete, setForDelete] = useState(false);
   const [data, setData] = useState<any>({});
   const { t } = useTranslation("animals");
 
   useEffect(() => {
-    const result: any[] = [];
+    const result: Problem[] = [];
     animalProblemsService.find({ type: "problem" }).then((value) => {
-      value.map((item) => {
+     
+      value.map((item: any) => {
         if (item.animal === id) {
           result.push(item);
+          return ""
+        }else {
+          return ""
         }
       });
       setAnimalProblems(result);
-      setForDelete(false)
+      setForDelete(false);
     });
-  }, [isModalOpen,forDelete]);
-
+  }, [isModalOpen, forDelete, id]);
   useEffect(() => {
-    selectFieldService.find({ type: "problem" }).then(setSelectField);
-    setForDelete(false)
+    selectFieldService
+      .find({ type: "problem" })
+      .then(setSelectField)
+      .catch((error) => {});
+    setForDelete(false);
   }, [isModalOpen, forDelete]);
 
   const showModal = () => {
@@ -90,60 +93,59 @@ const AnimalProblems = ({
     });
   };
 
-
   return (
-    <div style={{marginTop: "30px", marginBottom: "30px"}}>
-       <Row>
-      <Modal visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <Select
-          defaultValue="Problems"
-          style={{ width: 120 }}
-          onChange={handleChange}
-          options={selectField.map((item) => {
-            return { value: item._id, label: item.name };
-          })}
-        />
-      </Modal>
+    <div style={{ marginTop: "30px", marginBottom: "30px" }}>
+      <Row>
+        <Modal visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <Select
+            defaultValue="Problems"
+            style={{ width: 120 }}
+            onChange={handleChange}
+            options={selectField.map((item) => {
+              return { value: item._id, label: item.name };
+            })}
+          />
+        </Modal>
 
-      <Col style={{ width: "100%" }}>
-        <Row style={{ justifyContent: "space-between", width: "100%" }}>
-          <h2>{t("Problems")}</h2>
+        <Col style={{ width: "100%" }}>
+          <Row style={{ justifyContent: "space-between", width: "100%" }}>
+            <h2>{t("Problems")}</h2>
 
-          <Button type="primary" disabled={disabled} onClick={showModal}>
-            {t("Add")}
-          </Button>
-        </Row>
-        <Row gutter={[4, 4]} style={{ width: "100%" }}>
-          {animalProblems.map((item) => (
-            <Card
-              key={item._id}
-              size="small"
-              className="weight-card"
-              title={`onBirth 
+            <Button type="primary" disabled={disabled} onClick={showModal}>
+              {t("Add")}
+            </Button>
+          </Row>
+          <Row gutter={[4, 4]} style={{ width: "100%" }}>
+            {animalProblems.map((item) => (
+              <Card
+                key={item._id}
+                size="small"
+                className="weight-card"
+                title={`onBirth 
                  ${item.onBirth}`}
-              extra={
-                <Button
-                  size="small"
-                  icon={<DeleteOutlined />}
-                  disabled={disabled}
-                  onClick={() => {
-                    animalProblemsService.destroy(item._id);
-                    setForDelete(true)
-                  }}
-                />
-              }
-            >
-              {selectField.map((value) => {
-                if (value._id === item.problem) {
-                  return value.name;
+                extra={
+                  <Button
+                    size="small"
+                    icon={<DeleteOutlined />}
+                    disabled={disabled}
+                    onClick={() => {
+                      animalProblemsService.destroy(item._id);
+                      setForDelete(true);
+                    }}
+                  />
                 }
-              })}
-            </Card>
-          ))}
-        </Row>
-      </Col>
-    </Row>
-    </div> 
+              >
+                {selectField.map((value) => {
+                  if(value._id === item.problem) {
+                    return value.name;
+                  } else {return ""}
+                })}
+              </Card>
+            ))}
+          </Row>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

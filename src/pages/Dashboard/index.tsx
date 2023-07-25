@@ -1,24 +1,24 @@
-import DashboardComp from "../Dashboard/BornAnimals/Dashboard";
-import SpendingsComp from "../Dashboard/SpendingsDash/Spendings"
-import AnimalsStateComp from "./AnimalsState/AnimalState";
-import AnimalsSoldComp from "./AnimalsState/AnimalsSold";
-import ChildrenComp from "./ChildrenDash/Children";
-
-function Dashboard() {
+import Dashboard from "../Dashboard/BornAnimals/Dashboard";
+import Spendings from "./SpendingsDash/Spendings"
+import AnimalsState from "./AnimalsState/AnimalsState";
+import AnimalsSold from "./AnimalsState/AnimalsSold";
+import Children from "./Children/Children";
+import "./style.less";
+function DashboardState() {
   return (
     <>
-    <div style={{display: "flex"}}>
-    <DashboardComp/>
-    <SpendingsComp/>
+    <div className="table">
+    <Dashboard/>
+    <Spendings/>
     </div>
-    <div style={{display: "flex"}}>
-      <ChildrenComp/>
-      <AnimalsStateComp/>
-      <AnimalsSoldComp/>
+    <div className="table">
+      <Children/>
+      <AnimalsState/>
+      <AnimalsSold/>
     </div>
      
     </>
   );
 }
 
-export default Dashboard;
+export default DashboardState;

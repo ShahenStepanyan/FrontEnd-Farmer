@@ -8,6 +8,7 @@ export enum SelectFieldTypeEnum {
 export type SelectField = {
   name: string;
   type: string;
+  _id?: string
   subFieldIsRequired: boolean;
 };
 

@@ -2,12 +2,10 @@ import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Form, Input, Button, message, Spin, Row, Col } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-// import { Helmet } from "react-helmet-async";
-// import BackgroundImage from "@/assets/images/farm-bg.jpg";s
 import "./login.css";
 import farmBg from "./farm-bg.jpg";
 import { UserContext } from "../../context/UsersContext";
-import { getAllByTestId } from "@testing-library/react";
+
 
 const Login = () => {
  

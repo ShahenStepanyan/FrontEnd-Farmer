@@ -55,7 +55,6 @@ function DeregisterSubFields({
             key: "actions",
             render: (_value, row) => (
               <>
-                 
                 <Button
                   icon={<EditOutlined />}
                   type="link"

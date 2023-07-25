@@ -3,29 +3,28 @@ import animalsTypesService from "../../../services/animalTypes";
 import { useEffect, useState } from "react";
 import { AnimalTypes } from "../../../types/AnimalTypes";
 import "../style.less";
-import { getAnimalsSold } from "../../../services/getAnimalsSold";
+import { getAnimalsDied } from "../../../services/getAnimalsDied";
 
 
-
-export default function AnimalsSold() {
+export default function AnimalsState() {
   
-  const [animals, setAnimals] = useState<{[_id: number]: any}>({}); // +
+  const [animals, setAnimals] = useState<{[_id: string]: any}>({}); // +
   const [animalsTypes, setAnimalsTypes] = useState<AnimalTypes[]>([]);
 
   useEffect(() => {
-    getAnimalsSold().then(setAnimals);
+    getAnimalsDied().then(setAnimals);
   }, []);
 
   useEffect(() => {
     animalsTypesService.find().then(setAnimalsTypes);
   }, []);
-  
+
   return (
     <>
       <div className="default-parametr-state">
-        <h3>Animals Sold</h3>
+        <h3>Animals Died</h3>
         <ul>
-          {animalsTypes.map((item: any) => { // +
+          {animalsTypes.map((item : any) => { // +
             return (
               <li key={item._id}>
                 <strong>{item.name}: </strong>
@@ -35,6 +34,6 @@ export default function AnimalsSold() {
           })}
         </ul>
       </div>
-    </>
+    </> 
   );
 }

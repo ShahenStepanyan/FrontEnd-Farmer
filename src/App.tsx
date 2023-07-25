@@ -13,13 +13,13 @@ import "antd/dist/antd.less";
 
 function App() {
   return (
-    // <ConfigProvider>
+    
     <UserProvider>
       <BrowserRouter>
         <Router />
       </BrowserRouter>
     </UserProvider>
-    // </ConfigProvider>
+    
   );
 }
 

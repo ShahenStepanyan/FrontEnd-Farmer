@@ -5,7 +5,7 @@ const animalsService = {
   ...CRUDFunc<Animal>("/animals"),
   deregister: (
     _id: string,
-    value: any
+    value: []
   ) => axiosService.patch(`/animals/${_id}`, { ...value , removed: "true"}),
 };
 

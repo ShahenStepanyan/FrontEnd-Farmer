@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { Button, Switch } from "antd";
-import { PlusCircleOutlined,CloseOutlined    } from "@ant-design/icons";
+import { PlusCircleOutlined, CloseOutlined } from "@ant-design/icons";
 import AnimalsTable from "./AnimalsTable";
 import AnimalForm from "./AnimalFormModal";
 import animalsService from "../../services/animals";
 import { useTranslation } from "react-i18next";
-import { Checkbox } from 'antd';
 import type { QueryProps } from "../../types";
 import type { Animal, AnimalModel } from "../../types/Animal";
 
@@ -17,8 +16,9 @@ const sortDirections = {
 };
 
 function Animals() {
-  const [formVisible, setFormVisible] = useState(false);
-  const [formDeregisterVisible, setFormDeregisterVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState<boolean>(false);
+  const [formDeregisterVisible, setFormDeregisterVisible] =
+    useState<boolean>(false);
   const [animals, setAnimals] = useState<Array<AnimalModel>>([]);
   const [filters, setFilters] = useState<QueryProps<AnimalModel>>({});
   const [pageIndex, setPageIndex] = useState(1);
@@ -50,12 +50,11 @@ function Animals() {
 
   const closeForm = () => setFormVisible(false);
   const closeDeregisterForm = () => setFormDeregisterVisible(false);
-  
 
   const handleSubmit = async (values: Animal) => {
     try {
       const newAnimal = await animalsService.create(values);
-      
+
       setAnimals((animals) => [...animals, newAnimal]);
       closeForm();
     } catch (err: any) {
@@ -64,13 +63,10 @@ function Animals() {
       }
       throw err;
     }
-    
   };
-  console.log("render");
-  const array: any = [];
-  animals.map((value) => array.push(value.animalType));
 
-  console.log(animals)
+  const array: string[] = [];
+  animals.map((value) => array.push(value.animalType));
   return (
     <>
       <AnimalForm
@@ -79,12 +75,11 @@ function Animals() {
         onOk={handleSubmit}
         title={t("Add")}
       />
-    
+
       <div className="actions-container">
         {chartMode ? (
           <Button
             onClick={() => setFormDeregisterVisible(true)}
-            
             danger
             icon={<CloseOutlined />}
           >
@@ -130,7 +125,6 @@ function Animals() {
           }));
         }}
         loading={loading}
-        
       />
     </>
   );

@@ -1,6 +1,6 @@
 import { BaseModel } from ".";
 export type SpendingEventsType = {
-  amount: string
+  amount?: string
   type: string
   date: string
   _id: string

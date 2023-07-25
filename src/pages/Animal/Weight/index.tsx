@@ -21,7 +21,7 @@ import { useTranslation } from "react-i18next";
 import theme from "../../../utils/theme.json";
 
 import type { Weight, WeightModel } from "../../../types/Weight";
-import Item from "antd/lib/list/Item";
+
 
 ChartJS.register(
   CategoryScale,

@@ -13,7 +13,6 @@ import type {
   SelectSubFieldModel,
 } from "../../../types/SelectField";
 import type { DeregisterSubFieldsProps } from "./DeregisterSubFields";
-import Item from "antd/lib/list/Item";
 
 type SelectFieldsListProps = {
   data: Array<SelectFieldAndSubFields>;

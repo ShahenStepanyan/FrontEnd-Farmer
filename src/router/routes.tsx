@@ -9,7 +9,6 @@ import Animals from "../pages/Animals";
 import SelectFields from "../pages/SelectFields";
 import Users from "../pages/Users";
 import Animal from "../pages/Animal";
-import Calendar from "../components/Calendar/Calendar";
 import { RoleEnum } from "../types/User";
 import Spending from "../pages/Spending";
 
