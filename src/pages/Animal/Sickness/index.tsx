@@ -20,6 +20,15 @@ import selectFieldService from "../../../services/selectFields";
 import { AnimalSubTypes } from "../../../types/AnimalSubTypes";
 import { Problem } from "../../../types/Problem";
 
+interface AnimalProblemData {
+  animal: string;
+  problem: string;
+  type: string;
+  date: Date;
+  onBirth:  boolean;
+  name: string;
+  _id: string
+}
 
 ChartJS.register(
   CategoryScale,
@@ -43,7 +52,15 @@ const AnimalSickness = ({
   const [selectField, setSelectField] = useState<AnimalSubTypes[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [forDelete, setForDelete] = useState(false);
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<AnimalProblemData>({
+    animal: "",
+    problem: "",
+    type: "",
+    date: new Date(),
+    onBirth: false,
+    name: "",
+    _id: ""
+  });
   const { t } = useTranslation("animals");
 
   useEffect(() => {
@@ -84,11 +101,13 @@ const AnimalSickness = ({
   const handleChange = (value: string) => {
     const newDate = new Date();
     setData({
-      animal: id,
+      animal: id || "",
       problem: value,
       type: "sickness",
       date: newDate,
       onBirth: false,
+      name: "",
+      _id: ""
     });
   };
 

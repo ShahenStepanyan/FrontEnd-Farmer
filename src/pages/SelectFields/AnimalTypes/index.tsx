@@ -18,7 +18,7 @@ function AnimalTypes() {
   useEffect(() => {
     animalSubTypeService.find().then()
   },[])
-  const handleAddOrEdit = async (values: any) => {
+  const handleAddOrEdit = async (values: AnimalTypesModel) => {
     if (editItem?._id) {
       await updateItem(editItem._id, values);
     } else {

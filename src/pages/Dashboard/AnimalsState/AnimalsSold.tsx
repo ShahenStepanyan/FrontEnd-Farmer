@@ -5,11 +5,13 @@ import { AnimalTypes } from "../../../types/AnimalTypes";
 import "../style.less";
 import { getAnimalsSold } from "../../../services/getAnimalsSold";
 
-
+interface AnimalsSoldData {
+  [animalTypeId: string]: any;
+}
 
 export default function AnimalsSold() {
   
-  const [animals, setAnimals] = useState<{[_id: number]: any}>({}); // +
+  const [animals, setAnimals] = useState<AnimalsSoldData>({}); 
   const [animalsTypes, setAnimalsTypes] = useState<AnimalTypes[]>([]);
 
   useEffect(() => {
@@ -25,11 +27,12 @@ export default function AnimalsSold() {
       <div className="default-parametr-state">
         <h3>Animals Sold</h3>
         <ul>
-          {animalsTypes.map((item: any) => { // +
+          {animalsTypes.map((item: AnimalTypes) => { // +
+           const animalCount = animals[item._id ?? ''] ?? 0;
             return (
               <li key={item._id}>
                 <strong>{item.name}: </strong>
-                {animals[item._id] || 0}
+                {animalCount}
               </li>
             );
           })}

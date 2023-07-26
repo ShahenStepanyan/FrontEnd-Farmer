@@ -33,7 +33,7 @@ const AnimalTypesList = ({ data, onEdit, onDelete }: AnimalTypesListProps) => {
     setFormModal(true);
   };
   const onDeleteSubField: AnimalsSubFieldsProps["onDelete"] = async (
-    item: any
+    item
   ) => {
     animalSubTypeService.destroy(item._id);
   };

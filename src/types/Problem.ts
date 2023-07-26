@@ -4,7 +4,7 @@ export type Problem = {
   name: string;
   problem: string;
   _id: string;
-  onBirth: Date;
+  onBirth: boolean;
   type: string;
   animal: string
 

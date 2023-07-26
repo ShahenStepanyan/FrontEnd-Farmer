@@ -31,7 +31,7 @@ function AnimalsSubFields({
   const { t } = useTranslation("selectFields");
 
   useEffect(() => {
-    const result: any[] = [];
+    const result: AnimalSubTypesModel[] = [];
     animalSubTypeService.find().then((data) => {
       data.forEach((value) => {
         if (value.animalType === item._id) {

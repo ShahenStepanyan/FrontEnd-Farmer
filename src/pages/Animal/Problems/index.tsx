@@ -20,6 +20,16 @@ import selectFieldService from "../../../services/selectFields";
 import { SelectField } from "../../../types/SelectField";
 import { Problem } from "../../../types/Problem";
 
+interface AnimalProblemData {
+  animal: string;
+  problem: string;
+  type: string;
+  date: Date;
+  onBirth: boolean;
+  name: string;
+  _id: string;
+}
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -41,20 +51,27 @@ const AnimalProblems = ({
   const [animalProblems, setAnimalProblems] = useState<Problem[]>([]);
   const [selectField, setSelectField] = useState<SelectField[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [forDelete, setForDelete] = useState(false);
-  const [data, setData] = useState<any>({});
+  const [forDelete, setForDelete] = useState<boolean>(false);
+  const [data, setData] = useState<AnimalProblemData>({
+    animal: "",
+    problem: "",
+    type: "",
+    date: new Date(),
+    onBirth: false,
+    name: "",
+    _id: ""
+  });
   const { t } = useTranslation("animals");
 
   useEffect(() => {
     const result: Problem[] = [];
     animalProblemsService.find({ type: "problem" }).then((value) => {
-     
       value.map((item: any) => {
         if (item.animal === id) {
           result.push(item);
-          return ""
-        }else {
-          return ""
+          return "";
+        } else {
+          return "";
         }
       });
       setAnimalProblems(result);
@@ -85,11 +102,13 @@ const AnimalProblems = ({
   const handleChange = (value: string) => {
     const newDate = new Date();
     setData({
-      animal: id,
+      animal: id || "",
       problem: value,
-      type: "problem",
+      type: "sickness",
       date: newDate,
       onBirth: false,
+      name: "",
+      _id: ""
     });
   };
 
@@ -136,9 +155,11 @@ const AnimalProblems = ({
                 }
               >
                 {selectField.map((value) => {
-                  if(value._id === item.problem) {
+                  if (value._id === item.problem) {
                     return value.name;
-                  } else {return ""}
+                  } else {
+                    return "";
+                  }
                 })}
               </Card>
             ))}
