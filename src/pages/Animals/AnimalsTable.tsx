@@ -60,11 +60,11 @@ const AnimalsTable = ({
     selectSubFieldsService.find().then(setAnimalsSubFields);
   }, []);
   const result = useRef<string[]>([]);
-  const handleSubmit = async (value: any) => {
-    result.current.map(async (id: string) => {
-      animalsService.deregister(id, value);
-      onCancel = false;
-    });
+  const handleSubmit = async (value: []) => {
+    for (const id of result.current) {
+      await animalsService.deregister(id, value);
+    }
+    onCancel(false);
   };
   useEffect(() => {
     const count: any[] = [];

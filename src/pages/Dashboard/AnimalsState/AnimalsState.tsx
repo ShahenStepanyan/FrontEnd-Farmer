@@ -12,7 +12,7 @@ interface AnimalsStateData {
 
 export default function AnimalsState() {
   
-  const [animals, setAnimals] = useState<AnimalsStateData>({}); // +
+  const [animals, setAnimals] = useState<AnimalsStateData>({}); 
   const [animalsTypes, setAnimalsTypes] = useState<AnimalTypes[]>([]);
 
   useEffect(() => {

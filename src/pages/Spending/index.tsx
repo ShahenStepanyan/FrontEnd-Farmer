@@ -6,6 +6,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select } from "antd";
 import moment from "moment";
 import { t } from "i18next";
+
 import { SpendingEventsType } from "../../types/SpendingEventsType";
 import { QueryProps } from "../../types";
 import spendingsService from "../../services/spendings";
@@ -23,12 +24,10 @@ function Calendar() {
   const [selectedEventId, setSelectedEventId] = useState("");
   const [selectedEventInfo, setSelectedEventInfo] =
     useState<SpendingEventsType>();
-  
+
   const [filtersSpendings] = useState<QueryProps<SpendingEventsType>>({});
   moment.suppressDeprecationWarnings = true;
 
-
-  
   useEffect(() => {
     loadEvents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,7 +76,6 @@ function Calendar() {
   const handleDateClick = (arg: any) => {
     handleEditForm(arg.event.id);
   };
- 
 
   return (
     <>
@@ -96,7 +94,6 @@ function Calendar() {
           setFormModalVisible(false);
         }}
         onOk={handleAdd}
-        
       >
         <Form.Item
           name={"amount"}
@@ -112,7 +109,6 @@ function Calendar() {
         </Form.Item>
         <Form.Item name={"type"}>
           <Select
-           
             options={selectFields.map((value) => ({
               value: value._id,
               label: value.name,
@@ -156,7 +152,6 @@ function Calendar() {
         </h4>
         <Form.Item name={"type"}>
           <Select
-           
             options={selectFields.map((value) => ({
               value: value._id,
               label: value.name,
