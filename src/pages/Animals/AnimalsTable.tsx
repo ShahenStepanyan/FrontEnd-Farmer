@@ -1,5 +1,14 @@
-import { useContext, useRef, useEffect, useState } from "react";
-import { Button, Table, Select, Form, Input, TableProps } from "antd";
+import React, { useContext, useRef, useEffect, useState } from "react";
+import {
+  Button,
+  Table,
+  Select,
+  Form,
+  Input,
+  TableProps,
+  Modal,
+  FormInstance,
+} from "antd";
 import { FilterFilled, FilterOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import RadioFilter from "../../components/RadioFilter";
@@ -65,44 +74,48 @@ const AnimalsTable = ({
       await animalsService.deregister(id, value);
     }
     onCancel(false);
+    Modal.success({ title: "Deregister Successful" });
   };
   useEffect(() => {
-    const count: any[] = [];
+    const count: SelectField[] = [];
     selectFieldService.find().then((data) =>
-      data.map((values) => {
+      data.forEach((values) => {
         if (values.type === "deregister") {
           count.push(values);
-          return setSelectFields(count);
-        } else {
-          return "";
+          setSelectFields(count);
         }
       })
     );
   }, []);
+
+  const handleModalCancel = () => {
+    onCancel(false);
+    result.current = [];
+  };
 
   return (
     <>
       <ModalForm
         title={t("Add")}
         visible={visible}
-        onCancel={onCancel}
+        onCancel={handleModalCancel}
         onOk={handleSubmit}
       >
-        <Form.Item name={"deregisterReason"}>
+        <Form.Item name={"deregisterReason"} label="Deregister Reason">
           <Select
             options={selectFields.map((value) => {
               return { value: value._id, label: value.name };
             })}
           ></Select>
         </Form.Item>
-        <Form.Item name={"deregisterSubReason"}>
+        <Form.Item name={"deregisterSubReason"} label="Deregister Sub-Reason">
           <Select
             options={animalsSubFields.map((value) => {
               return { value: value._id, label: value.name };
             })}
           ></Select>
         </Form.Item>
-        <Form.Item name={"deregisterDate"}>
+        <Form.Item name={"deregisterDate"} label="Deregister Date">
           <Input type="date" placeholder={t("Date")} />
         </Form.Item>
       </ModalForm>
@@ -200,21 +213,6 @@ const AnimalsTable = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   navigate(`/animals/${record.parent}`);
-                }}
-              >
-                {Number(value)}
-              </Button>
-            ),
-          },
-          {
-            title: t("Father"),
-            dataIndex: "fatherNumber",
-            render: (value, record) => (
-              <Button
-                size="small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/animals/${record.father}`);
                 }}
               >
                 {Number(value)}
